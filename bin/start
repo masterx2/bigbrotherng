@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+
+<?php
+/**
+ * Created by PhpStorm.
+ * User: masterx2
+ * Date: 23.07.15
+ * Time: 15:04
+ */
+require_once __DIR__.'/../vendor/autoload.php';
+\BB\Core::init();
+
+var_export(\BB\Core::updateUsers('258212,357892'));

@@ -1,0 +1,20 @@
+{
+    "name": "masterx2/bigbrother",
+    "type": "application",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitriey Kurgannikov",
+            "email": "true.masterx2@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "BB": "src" }
+    },
+    "require": {
+      "fenom/fenom": "dev-master",
+        "vladkens/vk": "dev-master",
+        "bzick/smart-invoker": "dev-master"
+    }
+}
