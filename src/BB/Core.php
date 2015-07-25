@@ -8,7 +8,6 @@
 
 namespace BB;
 
-use BB\Controllers\Vk;
 use BB\DB\Mongo;
 use BB\Models\Users;
 
@@ -26,12 +25,25 @@ class Core {
         Mongo::connect('bigbrother');
     }
 
-    public static function updateUsers($user_ids) {
-        $users = new Users();
-        $result = Vk::getUsers($user_ids, implode(',', array_keys(Users::$schema)));
-
-        foreach ($result as $user) {
-            $users->addNext($user);
+    public static function upsertUsers($users) {
+        $storage = new Users();
+        foreach ($users as $user) {
+            $exist_user = $storage->findOne(['uid' => $user['uid']]);
+            if ($exist_user) {
+                $storage->updateByMongoId($exist_user['_id'], $user);
+            } else {
+                $storage->add($user);
+            }
         }
+    }
+
+    public static function updateUsers($user_ids) {
+        $result = Vk::getUsers($user_ids, implode(',', array_keys(Users::$schema)));
+        self::upsertUsers($result);
+    }
+
+    public static function updateFriends($user_id) {
+        $result = Vk::getFriends($user_id, implode(',', array_keys(Users::$schema)));
+        self::upsertUsers($result);
     }
 }

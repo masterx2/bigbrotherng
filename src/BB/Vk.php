@@ -1,7 +1,6 @@
 <?php
 
-namespace BB\Controllers;
-
+namespace BB;
 /**
  * Created by PhpStorm.
  * User: masterx2

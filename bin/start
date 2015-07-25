@@ -10,4 +10,5 @@
 require_once __DIR__.'/../vendor/autoload.php';
 \BB\Core::init();
 
-var_export(\BB\Core::updateUsers('258212,357892'));
+\BB\Core::updateUsers('258212');
+\BB\Core::updateFriends('258212');

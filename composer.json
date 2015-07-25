@@ -14,7 +14,8 @@
     },
     "require": {
       "fenom/fenom": "dev-master",
-        "vladkens/vk": "dev-master",
-        "bzick/smart-invoker": "dev-master"
+      "vladkens/vk": "dev-master",
+      "bzick/smart-invoker": "dev-master",
+        "quimcalpe/router": "dev-master"
     }
 }

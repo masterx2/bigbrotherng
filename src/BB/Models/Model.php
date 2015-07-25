@@ -98,17 +98,17 @@ class Model {
     }
 
     public function getByMongoId($_id) {
-        $_id = Mongo::checkId($_id);
+        $_id = self::checkId($_id);
         return $this->container->findOne(['_id' => $_id]);
     }
 
     public function delByMongoId($_id) {
-        $_id = Mongo::checkId($_id);
+        $_id = self::checkId($_id);
         return $this->container->remove(['_id' => $_id]);
     }
 
     public function updateByMongoId($_id, $modify) {
-        $_id = Mongo::checkId($_id);
+        $_id = self::checkId($_id);
         return $this->container->update(['_id' => $_id], $modify);
     }
 
@@ -135,7 +135,7 @@ class Model {
     }
 
     public function getById($id) {
-        return Mongo::clearMongo($this->container->findOne(['id' => intval($id)]));
+        return self::clearMongo($this->container->findOne(['id' => intval($id)]));
     }
 
     public function updateById($id, $object) {
