@@ -123,10 +123,10 @@ class Model {
         )), $count];
     }
 
-    public function query($query, $offset=0, $max=5) {
+    public function query($query, $projection, $offset=0, $max=5) {
         $skip = $max * $offset;
 
-        $cursor = $this->container->find($query)->sort(['_id' => -1]);
+        $cursor = $this->container->find($query, $projection)->sort(['_id' => -1]);
         $count = $cursor->count();
 
         return [static::clearMongo(iterator_to_array(
@@ -193,5 +193,9 @@ class Model {
             $id = new \MongoId($id);
         }
         return $id;
+    }
+
+    public function getFields() {
+        return array_keys($this::$schema);
     }
 }

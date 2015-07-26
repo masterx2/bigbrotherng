@@ -32,6 +32,7 @@ class Vk {
      * @return mixed array
      */
     public static function getFriends($user_id, $fields) {
+        if (is_array($fields)) $fields = implode(',', $fields);
         return self::$vk->api('friends.get', [
             'user_id' => $user_id,
             'fields' => $fields
@@ -44,6 +45,8 @@ class Vk {
      * @return mixed array
      */
     public static function getUsers($user_ids, $fields) {
+        if (is_array($user_ids)) $user_ids = implode(',', $user_ids);
+        if (is_array($fields)) $fields = implode(',', $fields);
         return self::$vk->api('users.get', [
             'user_ids' => $user_ids,
             'fields' => $fields

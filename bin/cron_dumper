@@ -1,0 +1,46 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: masterx2
+ * Date: 27.07.15
+ * Time: 0:36
+ */
+
+require_once __DIR__ . '/../vendor/autoload.php';
+\BB\Core::init();
+
+$now = time();
+
+$redis = new Redis();
+$redis->connect('localhost', 6379);
+
+$timeCapsules = new \BB\Models\Timecapsule();
+$users = $redis->keys('user:*');
+
+foreach ($users as $user) { // Iterate Users
+    $timemarks = $redis->hGetAll($user);
+    $count = count($timemarks);
+
+    end($timemarks); $last_key = key($timemarks); reset($timemarks);
+    $last_state = $timemarks[$last_key];
+
+    if ($count % 2 != 0) array_pop($timemarks);
+
+    $timemarks_keys = array_keys($timemarks);
+
+    for ($i = 0; $i <= $count - 2; $i++) { // Iterate Timeline
+        $mark_one = $timemarks_keys[$i];
+        $mark_two = $timemarks_keys[$i + 1];
+        $timeCapsules->add([
+            'user_id' => (int)$user,
+            'start' => new MongoDate($mark_one),
+            'end' => new MongoDate($mark_two),
+            'status' => (int)$timemarks[$mark_one],
+            'duration' => $mark_two - $mark_one
+        ]);
+    }
+
+    $redis->del($user);
+    $redis->hset($user, $last_key, $last_state);
+}

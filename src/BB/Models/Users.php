@@ -63,19 +63,36 @@ class Users extends Model {
             'default' => 'Unknow',
             'value_type' => 'integer',
             'control_type' => 'input',
-            'scenario' => ['edit']
+            'scenario' => ['edit'],
+            'label' => 'Онлайн?'
         ],
         'photo_max' => [
             'default' => null,
             'value_type' => 'string',
             'control_type' => 'input',
-            'scenario' => ['edit']
+            'scenario' => ['edit'],
+            'label' => 'Фотография профиля'
         ],
         'photo_max_orig' => [
             'default' => null,
             'value_type' => 'string',
             'control_type' => 'input',
-            'scenario' => ['edit']
+            'scenario' => ['edit'],
+            'label' => 'Большая фотография профиля'
+        ],
+        'hidden' => [
+            'default' => null,
+            'value_type' => 'integer',
+            'control_type' => 'input',
+            'scenario' => ['edit'],
+            'label' => 'Скрытый профиль?'
         ]
     ];
+
+    public function getPool() {
+        $result = $this->query([],['uid'=> 1],0,300);
+        return array_values(array_map(function($item){
+            return $item['uid'];
+        }, $result[0]));
+    }
 }

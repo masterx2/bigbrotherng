@@ -38,12 +38,14 @@ class Core {
     }
 
     public static function updateUsers($user_ids) {
-        $result = Vk::getUsers($user_ids, implode(',', array_keys(Users::$schema)));
+        $storage = new Users();
+        $result = Vk::getUsers($user_ids, $storage->getFields());
         self::upsertUsers($result);
     }
 
     public static function updateFriends($user_id) {
-        $result = Vk::getFriends($user_id, implode(',', array_keys(Users::$schema)));
+        $storage = new Users();
+        $result = Vk::getFriends($user_id, $storage->getFields());
         self::upsertUsers($result);
     }
 }
