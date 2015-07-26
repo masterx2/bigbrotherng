@@ -30,10 +30,10 @@ foreach ($users as $user) { // Iterate Users
     $timemarks_keys = array_keys($timemarks);
 
     for ($i = 0; $i <= $count - 2; $i++) { // Iterate Timeline
-        $mark_one = $timemarks_keys[$i];
-        $mark_two = $timemarks_keys[$i + 1];
+        $mark_one = (int)$timemarks_keys[$i];
+        $mark_two = (int)$timemarks_keys[$i + 1];
         $timeCapsules->add([
-            'user_id' => (int)$user,
+            'uid' => explode(':',$user)[1],
             'start' => new MongoDate($mark_one),
             'end' => new MongoDate($mark_two),
             'status' => (int)$timemarks[$mark_one],
@@ -41,6 +41,6 @@ foreach ($users as $user) { // Iterate Users
         ]);
     }
 
-    $redis->del($user);
-    $redis->hset($user, $last_key, $last_state);
+    //$redis->del($user);
+    //$redis->hset($user, $last_key, $last_state);
 }
