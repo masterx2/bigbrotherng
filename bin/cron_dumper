@@ -41,6 +41,6 @@ foreach ($users as $user) { // Iterate Users
         ]);
     }
 
-    //$redis->del($user);
-    //$redis->hset($user, $last_key, $last_state);
+    $redis->del($user);
+    $redis->hset($user, $last_key, $last_state);
 }
