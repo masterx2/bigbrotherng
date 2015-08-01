@@ -47,7 +47,7 @@ if (!$last_pool_update && $now - $last_pool_update > $pool_update_period) {
 if (!empty($pool)) {
     // Получаем инфу по пулу
     $users = \BB\Vk::getUsers($pool, $fields);
-
+    $changed = [];
     if (!empty($users)) {
         foreach ($users as $user) {
             $user_timeline = $redis->hGetAll('user:'.$user['uid']); // Get All Keys(Timemarks)
@@ -60,9 +60,10 @@ if (!empty($pool)) {
                 }
             } else {
                 $redis->hSet('user:'.$user['uid'], $now, $user['online']);
-                $log->debud($user['first_name'].' '.$user['last_name'].' is '.$user['online']);
+                $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online']);
             }
         }
+        !empty($changed) && $log->debug($changed);
     }
 } else {
     echo 'Pool is Empty!'.PHP_EOL;
