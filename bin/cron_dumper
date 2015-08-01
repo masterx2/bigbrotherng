@@ -8,39 +8,62 @@
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// create a log channel
+$log = new Logger('Dumper');
+$log->pushHandler(new StreamHandler('/tmp/dumper.log', Logger::DEBUG));
+
 \BB\Core::init();
 
 $now = time();
 
 $redis = new Redis();
-$redis->connect('localhost', 6379);
+$redis->connect('localhost', 9998);
 
 $timeCapsules = new \BB\Models\Timecapsule();
 $users = $redis->keys('user:*');
 
+$log->debug('Start BB\Dumper');
+$log->debug('Users to dump: '.count($users));
+
 foreach ($users as $user) { // Iterate Users
+    $log->debug('=== Dumping user: '.$user.' ===');
+    
     $timemarks = $redis->hGetAll($user);
     $count = count($timemarks);
+    
+    $log->debug('User have: '.$count.' timemarks');
 
-    end($timemarks); $last_key = key($timemarks); reset($timemarks);
-    $last_state = $timemarks[$last_key];
+    if ($count >= 2) {
+        
+        end($timemarks); $last_key = key($timemarks); reset($timemarks);
+        $last_state = $timemarks[$last_key];
 
-    if ($count % 2 != 0) array_pop($timemarks);
+        if ($count % 2 != 0) {
+            array_pop($timemarks);
+            $count--;
+        }
 
-    $timemarks_keys = array_keys($timemarks);
+        $timemarks_keys = array_keys($timemarks);
 
-    for ($i = 0; $i <= $count - 2; $i++) { // Iterate Timeline
-        $mark_one = (int)$timemarks_keys[$i];
-        $mark_two = (int)$timemarks_keys[$i + 1];
-        $timeCapsules->add([
-            'uid' => explode(':',$user)[1],
-            'start' => new MongoDate($mark_one),
-            'end' => new MongoDate($mark_two),
-            'status' => (int)$timemarks[$mark_one],
-            'duration' => $mark_two - $mark_one
-        ]);
+        for ($i = 0; $i <= $count - 2; $i++) {
+            $mark_one = (int)$timemarks_keys[$i];
+            $mark_two = (int)$timemarks_keys[$i + 1];
+            $timeCapsules->add([
+                'uid' => explode(':',$user)[1],
+                'start' => new MongoDate($mark_one),
+                'end' => new MongoDate($mark_two),
+                'status' => (int)$timemarks[$mark_one],
+                'duration' => $mark_two - $mark_one
+            ]);
+        }
+
+        $redis->del($user);
+        $redis->hset($user, $last_key, $last_state);
+    } else {
+       $log->debug('Dumping skipped'); 
     }
-
-    $redis->del($user);
-    $redis->hset($user, $last_key, $last_state);
 }

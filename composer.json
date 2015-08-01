@@ -16,6 +16,7 @@
       "fenom/fenom": "dev-master",
       "vladkens/vk": "dev-master",
       "bzick/smart-invoker": "dev-master",
-        "quimcalpe/router": "dev-master"
+      "quimcalpe/router": "dev-master",
+      "monolog/monolog": "^1.15@dev"
     }
 }
