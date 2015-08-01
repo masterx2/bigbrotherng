@@ -57,6 +57,7 @@ if (!empty($pool)) {
                 // Check for stateChange
                 if ($user['online'] != $last_user_state) { // If Changed Update User Hash
                     $redis->hSet('user:'.$user['uid'], $now, $user['online']);
+                    $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
                 }
             } else {
                 $redis->hSet('user:'.$user['uid'], $now, $user['online']);
