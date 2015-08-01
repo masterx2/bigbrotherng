@@ -60,7 +60,7 @@ if (!empty($pool)) {
                 }
             } else {
                 $redis->hSet('user:'.$user['uid'], $now, $user['online']);
-                $log->debud($user['first_name'].' '.$user['last_name'].' is '.$user['online'])
+                $log->debud($user['first_name'].' '.$user['last_name'].' is '.$user['online']);
             }
         }
     }
