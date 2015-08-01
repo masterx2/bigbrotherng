@@ -64,7 +64,7 @@ if (!empty($pool)) {
                 $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
             }
         }
-        if (!empty($changed)) $log->debug('Changes, ', $changed);
+        if (!empty($changed)) $log->debug(json_encode($changed, JSON_UNESCAPED_UNICODE));
     }
 } else {
     echo 'Pool is Empty!'.PHP_EOL;
