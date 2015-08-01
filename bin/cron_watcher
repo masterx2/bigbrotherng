@@ -60,7 +60,7 @@ if (!empty($pool)) {
                 }
             } else {
                 $redis->hSet('user:'.$user['uid'], $now, $user['online']);
-                $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online']);
+                $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
             }
         }
         !empty($changed) && $log->debug($changed);
