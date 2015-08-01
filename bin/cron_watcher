@@ -10,6 +10,13 @@
 require_once __DIR__.'/../vendor/autoload.php';
 \BB\Core::init();
 
+use Monolog\Logger;
+use Monolog\Handler\PushoverHandler;
+
+// create a log channel
+$log = new Logger('Watcher');
+$log->pushHandler(new PushoverHandler('acw346noTXBoUobSd6yoSPEqPhV6oY', 'nexus5', 'BB\Watcher', Logger::DEBUG));
+
 $now = time();
 $pool_update_period = 600;
 $states = [ 1 => 'online', 0 => 'offline' ];
@@ -53,6 +60,7 @@ if (!empty($pool)) {
                 }
             } else {
                 $redis->hSet('user:'.$user['uid'], $now, $user['online']);
+                $log->debud($user['first_name'].' '.$user['last_name'].' is '.$user['online'])
             }
         }
     }
