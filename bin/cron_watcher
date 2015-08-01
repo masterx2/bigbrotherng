@@ -15,7 +15,7 @@ $pool_update_period = 600;
 $states = [ 1 => 'online', 0 => 'offline' ];
 
 $redis = new Redis();
-$redis->connect('localhost','9998');
+$redis->connect('localhost',6379);
 
 $usersStorage = new \BB\Models\Users();
 $fields = $usersStorage->getFields();
