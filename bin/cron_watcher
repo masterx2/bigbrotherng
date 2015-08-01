@@ -15,7 +15,7 @@ use Monolog\Handler\PushoverHandler;
 
 // create a log channel
 $log = new Logger('Watcher');
-$log->pushHandler(new PushoverHandler('uvQohZbtrnHG78nHJCe2FtxVwpkyC5', 'nexus5', 'BB\Watcher', Logger::DEBUG));
+$log->pushHandler(new PushoverHandler('acw346noTXBoUobSd6yoSPEqPhV6oY', 'uvQohZbtrnHG78nHJCe2FtxVwpkyC5', 'BB\Watcher', Logger::DEBUG));
 
 $now = time();
 $pool_update_period = 600;
