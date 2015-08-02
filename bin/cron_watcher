@@ -10,6 +10,7 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use BB\Core;
+
 Core::init();
 
 use Monolog\Logger;
@@ -18,7 +19,7 @@ use Monolog\Handler\PushoverHandler;
 if (Core::$config['pushover']) {
     // create a log channel
     $log = new Logger('Watcher');
-    $log->pushHandler(new PushoverHandler(Core::$config['api_key'], Core::$config['user_key'], 'BB\Watcher', Logger::DEBUG));
+    $log->pushHandler(new PushoverHandler(Core::$config['pushover.api_key'], Core::$config['pushover.user_key'], 'BB\Watcher', Logger::DEBUG));
 }
 
 $now = time();

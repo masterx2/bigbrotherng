@@ -29,7 +29,7 @@ class Core {
 
     public static function init() {
         self::$config = new Config([CONFIG_PATH.'common.json', '?'.CONFIG_PATH.'local.json']);
-        Vk::init(self::$config['vk.app_id'],self::$config['vk.app_secret']);
+        Vk::init(self::$config['vk.app_id'], self::$config['vk.app_secret']);
         Mongo::connect(self::$config['mongo']);
         self::$redis = new \Redis();
         self::$redis->connect(self::$config['redis.host'], self::$config['redis.port']);
