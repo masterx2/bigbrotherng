@@ -25,13 +25,14 @@ class Core {
      * @var \Redis
      */
     public static $redis;
+    public static $config;
 
     public static function init() {
-        $config = new Config([CONFIG_PATH.'common.json', '?'.CONFIG_PATH.'local.json']);
-        Vk::init($config['vk.app_id'],$config['vk.app_secret']);
-        Mongo::connect($config['mongo']);
+        self::$config = new Config([CONFIG_PATH.'common.json', '?'.CONFIG_PATH.'local.json']);
+        Vk::init(self::$config['vk.app_id'],self::$config['vk.app_secret']);
+        Mongo::connect(self::$config['mongo']);
         self::$redis = new \Redis();
-        self::$redis->connect($config['redis.host'], $config['redis.port']);
+        self::$redis->connect(self::$config['redis.host'], self::$config['redis.port']);
     }
 
     public static function upsertUsers($users) {

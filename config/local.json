@@ -6,5 +6,9 @@
   "redis": {
     "host": "127.0.0.1",
     "port": 9998
+  },
+  "pushover": {
+    "user_key": "acw346noTXBoUobSd6yoSPEqPhV6oY",
+    "api_key": "uvQohZbtrnHG78nHJCe2FtxVwpkyC5"
   }
 }

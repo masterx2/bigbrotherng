@@ -17,7 +17,7 @@ Core::init();
 
 // create a log channel
 $log = new Logger('Dumper');
-$log->pushHandler(new StreamHandler('/tmp/dumper.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(Core::$config['log_file'], Logger::DEBUG));
 
 $now = time();
 

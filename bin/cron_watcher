@@ -15,9 +15,11 @@ Core::init();
 use Monolog\Logger;
 use Monolog\Handler\PushoverHandler;
 
-// create a log channel
-$log = new Logger('Watcher');
-$log->pushHandler(new PushoverHandler('acw346noTXBoUobSd6yoSPEqPhV6oY', 'uvQohZbtrnHG78nHJCe2FtxVwpkyC5', 'BB\Watcher', Logger::DEBUG));
+if (Core::$config['pushover']) {
+    // create a log channel
+    $log = new Logger('Watcher');
+    $log->pushHandler(new PushoverHandler(Core::$config['api_key'], Core::$config['user_key'], 'BB\Watcher', Logger::DEBUG));
+}
 
 $now = time();
 $pool_update_period = 600;
@@ -63,7 +65,7 @@ if (!empty($pool)) {
                 $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
             }
         }
-        if (!empty($changed)) $log->debug(json_encode($changed, JSON_UNESCAPED_UNICODE));
+        if (!empty($changed) && Core::$config['pushover']) $log->debug(json_encode($changed, JSON_UNESCAPED_UNICODE));
     }
 } else {
     echo 'Pool is Empty!'.PHP_EOL;

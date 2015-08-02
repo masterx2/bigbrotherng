@@ -10,5 +10,7 @@
   "vk": {
     "app_id": 4110122,
     "app_secret": "Tn6YLpDYE1ZDDTQuEcRA"
-  }
+  },
+  "pushover": false,
+  "log_file": "/tmp/dumper.log"
 }
