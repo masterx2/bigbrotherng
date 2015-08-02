@@ -80,7 +80,7 @@ class Users extends Model {
             'scenario' => ['edit'],
             'label' => 'Большая фотография профиля'
         ],
-        'hidden' => [
+        'is_hidden' => [
             'default' => null,
             'value_type' => 'integer',
             'control_type' => 'input',
