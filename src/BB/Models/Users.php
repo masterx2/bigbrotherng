@@ -79,13 +79,6 @@ class Users extends Model {
             'control_type' => 'input',
             'scenario' => ['edit'],
             'label' => 'Большая фотография профиля'
-        ],
-        'is_hidden' => [
-            'default' => null,
-            'value_type' => 'integer',
-            'control_type' => 'input',
-            'scenario' => ['edit'],
-            'label' => 'Скрытый профиль?'
         ]
     ];
 
