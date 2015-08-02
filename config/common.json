@@ -7,10 +7,5 @@
     "host": "127.0.0.1",
     "port": 6379
   },
-  "vk": {
-    "app_id": 4110122,
-    "app_secret": "Tn6YLpDYE1ZDDTQuEcRA"
-  },
-  "pushover": false,
   "log_file": "/tmp/dumper.log"
 }
