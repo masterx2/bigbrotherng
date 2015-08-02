@@ -83,7 +83,7 @@ class Users extends Model {
     ];
 
     public function getPool() {
-        $result = $this->query([],['uid'=> 1],0,300);
+        $result = $this->query([],['uid'=> 1],[],0,300);
         return array_values(array_map(function($item){
             return $item['uid'];
         }, $result[0]));
