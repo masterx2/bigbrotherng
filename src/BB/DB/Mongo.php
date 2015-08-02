@@ -17,8 +17,8 @@ class Mongo {
     /**
      * @param string $dbname
      */
-    public static function connect($dbname) {
-        $mc = new \MongoClient(); // "mongodb://localhost:9999"
-        self::$db = $mc->$dbname;
+    public static function connect($config) {
+        $mc = new \MongoClient($config['server']);
+        self::$db = $mc->$config['dbname'];
     }
 }

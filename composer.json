@@ -17,6 +17,7 @@
       "vladkens/vk": "dev-master",
       "bzick/smart-invoker": "dev-master",
       "quimcalpe/router": "dev-master",
-      "monolog/monolog": "^1.15@dev"
+      "monolog/monolog": "^1.15@dev",
+      "hassankhan/config": "dev-master"
     }
 }

@@ -8,7 +8,8 @@
  * Time: 15:04
  */
 require_once __DIR__.'/../vendor/autoload.php';
+
 \BB\Core::init();
 
-\BB\Core::updateUsers('258212');
-\BB\Core::updateFriends('258212');
+// \BB\Core::updateUsers('258212');
+// \BB\Core::updateFriends('258212');

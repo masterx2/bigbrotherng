@@ -10,19 +10,28 @@ namespace BB;
 
 use BB\DB\Mongo;
 use BB\Models\Users;
+use Noodlehaus\Config;
 
+
+define('CONFIG_PATH', __DIR__.'/../../config/');
 
 /**
  * Class Core
  * @package BB
- *
- * @property Users $users
  */
 class Core {
 
-    public static function init($config=[]) {
-        Vk::init('4110122','Tn6YLpDYE1ZDDTQuEcRA');
-        Mongo::connect('bigbrother');
+    /**
+     * @var \Redis
+     */
+    public static $redis;
+
+    public static function init() {
+        $config = new Config([CONFIG_PATH.'common.json', '?'.CONFIG_PATH.'local.json']);
+        Vk::init($config['vk.app_id'],$config['vk.app_secret']);
+        Mongo::connect($config['mongo']);
+        self::$redis = new \Redis();
+        self::$redis->connect($config['redis.host'], $config['redis.port']);
     }
 
     public static function upsertUsers($users) {

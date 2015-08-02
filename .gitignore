@@ -1,3 +1,4 @@
+/config/local.json
 /vendor/
 /.idea/
 composer.phar

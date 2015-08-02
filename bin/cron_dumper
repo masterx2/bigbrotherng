@@ -9,22 +9,20 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use BB\Core;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+
+Core::init();
 
 // create a log channel
 $log = new Logger('Dumper');
 $log->pushHandler(new StreamHandler('/tmp/dumper.log', Logger::DEBUG));
 
-\BB\Core::init();
-
 $now = time();
 
-$redis = new Redis();
-$redis->connect('localhost', 6379);
-
 $timeCapsules = new \BB\Models\Timecapsule();
-$users = $redis->keys('user:*');
+$users = Core::$redis->keys('user:*');
 
 $log->debug('Start BB\Dumper');
 $log->debug('Users to dump: '.count($users));
@@ -32,7 +30,7 @@ $log->debug('Users to dump: '.count($users));
 foreach ($users as $user) { // Iterate Users
     $log->debug('=== Dumping user: '.$user.' ===');
     
-    $timemarks = $redis->hGetAll($user);
+    $timemarks = Core::$redis->hGetAll($user);
     $count = count($timemarks);
     
     $log->debug('User have: '.$count.' timemarks');
@@ -61,8 +59,8 @@ foreach ($users as $user) { // Iterate Users
             ]);
         }
 
-        $redis->del($user);
-        $redis->hset($user, $last_key, $last_state);
+        Core::$redis->del($user);
+        Core::$redis->hset($user, $last_key, $last_state);
     } else {
        $log->debug('Dumping skipped'); 
     }

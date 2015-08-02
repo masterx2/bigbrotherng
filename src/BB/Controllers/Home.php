@@ -13,7 +13,6 @@ class Home {
         $users = new \BB\Models\Users();
         $tc = new \BB\Models\Timecapsule();
         header('Content-Type: application/json; charset=utf-8');
-        //echo json_encode($users->query([],[],0,100)[0], JSON_UNESCAPED_UNICODE);
-        echo json_encode($tc->query(['uid'=>398883],[],0,100)[0], JSON_UNESCAPED_UNICODE);
+        echo json_encode($tc->query(['uid'=>398883],['_id' => 1],[],0,100)[0], JSON_UNESCAPED_UNICODE);
     }
 }

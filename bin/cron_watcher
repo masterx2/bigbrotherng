@@ -8,7 +8,9 @@
  * Time: 23:07
  */
 require_once __DIR__.'/../vendor/autoload.php';
-\BB\Core::init();
+
+use BB\Core;
+Core::init();
 
 use Monolog\Logger;
 use Monolog\Handler\PushoverHandler;
@@ -21,27 +23,24 @@ $now = time();
 $pool_update_period = 600;
 $states = [ 1 => 'online', 0 => 'offline' ];
 
-$redis = new Redis();
-$redis->connect('localhost',6379);
-
 $usersStorage = new \BB\Models\Users();
 $fields = $usersStorage->getFields();
 
 // Обновим пул если пришло время
-$last_pool_update = $redis->get('last_pool_update');
+$last_pool_update = Core::$redis->get('last_pool_update');
 if (!$last_pool_update && $now - $last_pool_update > $pool_update_period) {
     $pool = $usersStorage->getPool();
     if ($pool) {
-        $redis->del('user_pool');
+        Core::$redis->del('user_pool');
         array_unshift($pool, 'user_pool');
-        call_user_func_array(array($redis, "sadd"), $pool);
+        call_user_func_array(array(Core::$redis, "sadd"), $pool);
         array_shift($pool);
-        $redis->set('last_pool_update', $now);
+        Core::$redis->set('last_pool_update', $now);
     } else {
         echo 'Pool is Empty!'.PHP_EOL;
     }
 } else {
-    $pool = $redis->sMembers('user_pool');
+    $pool = Core::$redis->sMembers('user_pool');
 }
 
 if (!empty($pool)) {
@@ -50,17 +49,17 @@ if (!empty($pool)) {
     $changed = [];
     if (!empty($users)) {
         foreach ($users as $user) {
-            $user_timeline = $redis->hGetAll('user:'.$user['uid']); // Get All Keys(Timemarks)
+            $user_timeline = Core::$redis->hGetAll('user:'.$user['uid']); // Get All Keys(Timemarks)
             if ($user_timeline) {
                 end($user_timeline); $lastkey = key($user_timeline); // Get Last Timemark Key
-                $last_user_state = $redis->hGet('user:'.$user['uid'], $lastkey); // Get Last State
+                $last_user_state = Core::$redis->hGet('user:'.$user['uid'], $lastkey); // Get Last State
                 // Check for stateChange
                 if ($user['online'] != $last_user_state) { // If Changed Update User Hash
-                    $redis->hSet('user:'.$user['uid'], $now, $user['online']);
+                    Core::$redis->hSet('user:'.$user['uid'], $now, $user['online']);
                     $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
                 }
             } else {
-                $redis->hSet('user:'.$user['uid'], $now, $user['online']);
+                Core::$redis->hSet('user:'.$user['uid'], $now, $user['online']);
                 $changed[] = $user['first_name'].' '.$user['last_name'].' is '.$user['online'];
             }
         }
