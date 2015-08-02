@@ -36,14 +36,13 @@ foreach ($users as $user) { // Iterate Users
     $log->debug('User have: '.$count.' timemarks');
 
     if ($count >= 2) {
-        
-        end($timemarks); $last_key = key($timemarks); reset($timemarks);
-        $last_state = $timemarks[$last_key];
-
         if ($count % 2 != 0) {
             array_pop($timemarks);
             $count--;
         }
+
+        end($timemarks); $last_key = key($timemarks); reset($timemarks);
+        $last_state = $timemarks[$last_key];
 
         $timemarks_keys = array_keys($timemarks);
 
